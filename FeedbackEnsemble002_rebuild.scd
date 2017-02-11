@@ -1,4 +1,26 @@
 (
+//Adjust Server Options before boot
+s.options.numAudioBusChannels = 512;
+s.options.memSize = 163840;
+s.waitForBoot{ fork{
+	//SynthDefs
+	SynthDef( \delaylive, {
+		arg ibs=0, obs=0, gate;
+		var in, sig;
+		var del = \del.kr(0.5, 0.01);
+		var amp = \amp.kr(0.85, 0.01);
+		var env = EnvGen.ar(Env.asr(0.03,1,0.03,0),gate);
+		in = SoundIn.ar(ibs);
+		sig = DelayC.ar(in, 5.0, del);
+		Out.ar(obs, sig*amp*env);
+	}).add;
+}} //end fork & s.waitForBoot
+)
+
+
+
+
+(
 s.options.numAudioBusChannels = 300;
 s.waitForBoot{ fork{
 
