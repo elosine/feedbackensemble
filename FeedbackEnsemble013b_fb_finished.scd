@@ -75,7 +75,7 @@ s.waitForBoot{ fork{
 
 			//// p6 - Contact Mic Volume
 			"p6", {
-				s.sendMsg(\c_set, 7, val.explin(0.001, 1023.0, -300.0, 24.0));
+				s.sendMsg(\c_set, 7, val.explin(0.001, 1023.0, -300.0, 48.0));
 				s.sendMsg(\c_get, 7);
 			},
 
@@ -268,12 +268,13 @@ s.waitForBoot{ fork{
 	////DSP
 	SynthDef( \delay, {
 		arg ibs=0, obs=0, gate;
-		var in, sig;
+		var in, sig, loc;
 		var del = \delay.kr(0.5, 0.01);
 		var amp = \amp.kr(0.85, 0.01);
 		var env = EnvGen.ar(Env.asr(0.1,1,0.1,0),gate, doneAction:2);
 		in = In.ar(ibs);
-		sig = DelayC.ar(in, 5.0, del);
+		loc = LocalIn.ar + in;
+		sig = DelayC.ar(loc, 5.0, del);
 		ReplaceOut.ar(obs, sig*amp*env);
 	}).add;
 

@@ -75,7 +75,7 @@ s.waitForBoot{ fork{
 
 			//// p6 - Contact Mic Volume
 			"p6", {
-				s.sendMsg(\c_set, 7, val.explin(0.001, 1023.0, -300.0, 24.0));
+				s.sendMsg(\c_set, 7, val.explin(0.001, 1023.0, -300.0, 48.0));
 				s.sendMsg(\c_get, 7);
 			},
 
@@ -340,7 +340,9 @@ s.waitForBoot{ fork{
 	////map master volume to pot 7, control bus 8
 	s.sendMsg(\n_map, 5000, \vol, 8);
 
+0.1.wait;
 
+	{s.meter}.defer;
 }} //end fork & s.waitForBoot
 )
 
